@@ -1,36 +1,31 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import {
-//   saveAccessTokenInLocalStorage,
-//   deleteAccessTokenFromLocalStorage,
-//   getAccessTokenFromLocalStorage,
-// } from "../../libs/tokenHandler";
+import { deleteAccessTokenFromLocalStorage } from "@/libs/tokenHandler";
 
 interface AuthState {
   isLoggedIn: boolean;
+  nickname: undefined | string;
 }
-
-// const token = getAccessTokenFromLocalStorage();
 
 const initialState: AuthState = {
   isLoggedIn: false,
-  // isLoggedIn: !!token,
+  nickname: undefined,
 };
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    // login: (state, action: PayloadAction<string>) => {
-    //   state.isLoggedIn = true;
-    //   saveAccessTokenInLocalStorage(action.payload);
-    // },
-    // logout: (state) => {
-    //   state.isLoggedIn = false;
-    //   deleteAccessTokenFromLocalStorage();
-    // },
+    login: (state, action: PayloadAction<string>) => {
+      state.isLoggedIn = true;
+      state.nickname = action.payload;
+    },
+    logout: (state) => {
+      state.isLoggedIn = false;
+      deleteAccessTokenFromLocalStorage();
+    },
   },
 });
 
-// export const { login, logout } = authSlice.actions;
+export const { login, logout } = authSlice.actions;
 
 export default authSlice.reducer;
