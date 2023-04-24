@@ -4,17 +4,18 @@ import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import { RootState } from "../../store/store";
-import { ROUTE } from "../../constants/routes";
-// import { logout } from "../../store/reducers/authSlice";
+import { ROUTE } from "@/constants";
+import { logout } from "@/store/reducers/authSlice";
 import * as Styled from "./Header.style";
 
 const Header = () => {
   const location = useRouter().pathname;
   const dispatch = useDispatch();
-  const isLogin = true;
-  // const isLogin = useSelector((state: RootState) => state.auth.isLoggedIn);
+  const { isLoggedIn, nickname } = useSelector(
+    (state: RootState) => state.auth
+  );
   const logoutHandler = () => {
-    // dispatch(logout());
+    dispatch(logout());
   };
   return (
     <Styled.Container>
@@ -35,22 +36,22 @@ const Header = () => {
             </Styled.NavLi>
           </ul>
         </Styled.Nav>
-        <div>닉네임님 환영합니다</div>
+        {isLoggedIn ? <div>{nickname}님 환영합니다</div> : null}
         <Styled.BtnGroup>
           <li>
-            <Link href={isLogin ? ROUTE.MYPAGE : ROUTE.SIGN_IN}>
+            <Link href={isLoggedIn ? ROUTE.MYPAGE : ROUTE.SIGN_IN}>
               <Button variant="contained">
-                {isLogin ? "마이페이지" : "로그인"}
+                {isLoggedIn ? "마이페이지" : "로그인"}
               </Button>
             </Link>
           </li>
           <li>
-            <Link href={isLogin ? ROUTE.SIGN_IN : ROUTE.SIGN_UP}>
+            <Link href={isLoggedIn ? ROUTE.SIGN_IN : ROUTE.SIGN_UP}>
               <Button
                 variant="contained"
-                onClick={isLogin ? logoutHandler : undefined}
+                onClick={isLoggedIn ? logoutHandler : undefined}
               >
-                {isLogin ? "로그아웃" : "회원가입"}
+                {isLoggedIn ? "로그아웃" : "회원가입"}
               </Button>
             </Link>
           </li>
