@@ -1,21 +1,29 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
+import { useMutation } from "react-query";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextField, Button } from "@mui/material";
 import { SignUpSchema } from "../../libs/authValidationYup";
-// import { login } from "../../store/reducers/authSlice";
-import { ROUTE } from "../../constants/routes";
-// import { signUpRequest } from "../../apis/authApi";
+import { saveAccessTokenInLocalStorage } from "@/libs/tokenHandler";
+import { ROUTE } from "@/constants";
+import { signUpRequest, type ISignUpUserInfo } from "@/apis";
 import * as Styled from "./SignUpForm.style";
 
 type FormData = yup.InferType<typeof SignUpSchema>;
 
 const SignUpForm = () => {
+  const {
+    data: response,
+    isError,
+    isLoading,
+    isSuccess,
+    mutate,
+  } = useMutation((enteredInput: ISignUpUserInfo) =>
+    signUpRequest(enteredInput)
+  );
   const route = useRouter();
-  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -32,18 +40,21 @@ const SignUpForm = () => {
   });
 
   const SignUpSubmitHandler = handleSubmit(async (data) => {
-    // try {
-    //   const response = await signUpRequest({
-    //     email: data.email,
-    //     password: data.password,
-    //     nickname: data.nickname,
-    //   });
-    //   dispatch(login(response.data.token));
-    //   route.push(ROUTE.MAIN);
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    mutate({
+      email: data.email,
+      password: data.password,
+      nickname: data.nickname,
+    });
   });
+
+  if (isSuccess) {
+    saveAccessTokenInLocalStorage(response.token);
+    route.push(ROUTE.MAIN);
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
 
   return (
     <Styled.Container onSubmit={SignUpSubmitHandler}>
@@ -53,6 +64,7 @@ const SignUpForm = () => {
         variant="outlined"
         error={!!errors.nickname}
         helperText={errors.nickname?.message}
+        disabled={isLoading}
       />
       <TextField
         {...register("email")}
@@ -61,6 +73,7 @@ const SignUpForm = () => {
         error={!!errors.email}
         helperText={errors.email?.message}
         type="email"
+        disabled={isLoading}
       />
       <TextField
         {...register("password")}
@@ -69,6 +82,7 @@ const SignUpForm = () => {
         error={!!errors.password}
         helperText={errors.password?.message}
         type="password"
+        disabled={isLoading}
       />
       <TextField
         {...register("password_check")}
@@ -77,8 +91,9 @@ const SignUpForm = () => {
         error={!!errors.password_check}
         helperText={errors.password_check?.message}
         type="password"
+        disabled={isLoading}
       />
-      <Button variant="contained" type="submit">
+      <Button variant="contained" type="submit" disabled={isLoading}>
         가입하기
       </Button>
     </Styled.Container>
