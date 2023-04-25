@@ -9,7 +9,7 @@ interface IProps {
   children: React.ReactNode;
 }
 
-const GlobalLayout: React.FC<IProps> = ({ children }) => {
+export const GlobalLayout: React.FC<IProps> = ({ children }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -36,5 +36,3 @@ const Container = styled.main`
   flex-direction: column;
   gap: 30px;
 `;
-
-export default GlobalLayout;
