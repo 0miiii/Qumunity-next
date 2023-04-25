@@ -22,6 +22,13 @@ export default async function handler(
   req: INextApiRequest,
   res: NextApiResponse
 ) {
+  try {
+    await dbConnect();
+  } catch (err) {
+    console.error(err);
+    return res.status(400).json("DB 연결에 실패했습니다.");
+  }
+
   if (req.method === "GET") {
     try {
       const page = Number(req.query.page);
@@ -38,7 +45,7 @@ export default async function handler(
       return res.status(200).json(filteredData);
     } catch (err) {
       console.error(err);
-      return res.status(401).json("게시물 찾기에 실패했습니다");
+      return res.status(400).json("게시물 찾기에 실패했습니다");
     }
   }
 
@@ -58,13 +65,6 @@ export default async function handler(
     return res.status(401).json("토큰이 유효하지 않습니다");
   }
   // =======================================================
-
-  try {
-    await dbConnect();
-  } catch (err) {
-    console.error(err);
-    return res.status(400).json("DB 연결에 실패했습니다.");
-  }
 
   if (req.method === "POST") {
     try {
