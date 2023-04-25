@@ -3,21 +3,21 @@ import { deleteAccessTokenFromLocalStorage } from "@/libs/tokenHandler";
 
 interface AuthState {
   isLoggedIn: boolean;
-  nickname: undefined | string;
+  // nickname: undefined | string;
 }
 
 const initialState: AuthState = {
   isLoggedIn: false,
-  nickname: undefined,
+  // nickname: undefined,
 };
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<string>) => {
+    login: (state) => {
       state.isLoggedIn = true;
-      state.nickname = action.payload;
+      // state.nickname = action.payload;
     },
     logout: (state) => {
       state.isLoggedIn = false;
