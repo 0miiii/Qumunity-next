@@ -3,22 +3,15 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { useQuery } from "react-query";
 import { verifyTokenRequest, getPosts } from "@/apis";
-import { login } from "@/store/reducers/authSlice";
+import { login, logout } from "@/store/reducers/authSlice";
 import { ROUTE } from "@/constants";
 import Post from "@/components/Post/Post";
 import * as Styled from "@/pages/index.style";
 
 export default function Home() {
-  const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 5;
-  const { data: decodedToken, isSuccess: verifySuccess } = useQuery(
-    "verify",
-    verifyTokenRequest
-  );
-  if (verifySuccess) {
-    dispatch(login(decodedToken.nickname));
-  }
+
   const {
     data: posts,
     isLoading,
