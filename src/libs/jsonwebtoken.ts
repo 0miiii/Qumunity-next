@@ -1,4 +1,4 @@
-import jwt, { type JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 interface Ipayload {
   _id: string;
