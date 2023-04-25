@@ -1,12 +1,21 @@
 import type { AppProps } from "next/app";
+import { NextPage } from "next";
 import Head from "next/head";
 import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { store } from "@/store/store";
 import GlobalStyle from "@/styles/Global.style";
-import GlobalLayout from "@/components/Layouts/GlobalLayout";
+import { AuthGaurdLayout, GlobalLayout } from "@/components/Layouts";
 
-export default function App({ Component, pageProps }: AppProps) {
+type NextPageWithAuthLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  auth?: boolean;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithAuthLayout;
+};
+
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const queryClient = new QueryClient();
   return (
     <>
@@ -20,7 +29,13 @@ export default function App({ Component, pageProps }: AppProps) {
         <Provider store={store}>
           <GlobalStyle />
           <GlobalLayout>
-            <Component {...pageProps} />
+            {Component.auth ? (
+              <AuthGaurdLayout>
+                <Component {...pageProps} />
+              </AuthGaurdLayout>
+            ) : (
+              <Component {...pageProps} />
+            )}
           </GlobalLayout>
         </Provider>
       </QueryClientProvider>
