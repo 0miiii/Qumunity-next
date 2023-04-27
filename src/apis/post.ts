@@ -1,10 +1,15 @@
 import instance from "./intance";
-import { IPost } from "../types/post";
+import { IPost, IAnswer } from "@/types";
 
 interface ICreateReq {
   title: string;
   content: string;
   tags: string[];
+}
+
+interface IGetPostRes {
+  post: IPost;
+  answers: IAnswer[];
 }
 
 export const getPosts = (page: number, limit: number) => {
@@ -14,7 +19,7 @@ export const getPosts = (page: number, limit: number) => {
 };
 
 export const getPost = (postId: string) => {
-  return instance.get<IPost>(`/post/${postId}`).then((res) => res.data);
+  return instance.get<IGetPostRes>(`/post/${postId}`).then((res) => res.data);
 };
 
 export const createPost = (post: ICreateReq) => {
