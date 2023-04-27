@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import UserModel from "@/models/userModel";
 import PostModel from "@/models/postModel";
+import answerModel from "@/models/answerModel";
 import dbConnect from "@/libs/mongoose";
 import { verifyToken } from "@/libs/jsonwebtoken";
 
@@ -37,7 +38,12 @@ export default async function handler(
     try {
       const { postId } = req.query;
       const findedPost = await PostModel.findById(postId);
-      return res.status(200).json(findedPost);
+      const findedAnswerOnPost = await answerModel
+        .find({ post: postId })
+        .populate("author");
+      return res
+        .status(200)
+        .json({ post: findedPost, answers: findedAnswerOnPost });
     } catch (err) {
       console.error(err);
       return res.status(400).json({ error: "게시물 찾기에 실패했습니다" });
