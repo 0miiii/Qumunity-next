@@ -1,25 +1,44 @@
-import React, { useEffect } from "react";
+import React, { useRef } from "react";
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import { Button } from "@mui/material";
 import { useScrollTop } from "@/hooks";
-import { getPost } from "@/apis";
+import { getPost, createAnswer, IAnswerCreateReq } from "@/apis";
 import Tag from "@/components/Tag/Tag";
+import Answer from "@/components/Answer/Answer";
 import * as Styled from "./index.style";
 
 const DetailPage = () => {
   useScrollTop();
   const { postId } = useRouter().query;
+  const answerRef = useRef<HTMLTextAreaElement>(null);
 
-  const {
-    data: post,
-    isError,
-    isLoading,
-  } = useQuery(["post", postId], () => getPost(postId as string), {
-    enabled: !!postId,
-  });
+  const { mutate, isLoading: isMuLoading } = useMutation(
+    (answer: IAnswerCreateReq) => createAnswer(answer)
+  );
 
-  if (isLoading) {
+  const { data, isError, isLoading } = useQuery(
+    ["post", postId],
+    () => getPost(postId as string),
+    {
+      enabled: !!postId,
+    }
+  );
+
+  const answerSubmitHandler = () => {
+    const enteredAnswer = answerRef.current?.value;
+
+    if (!enteredAnswer) {
+      return alert("내용을 입력해주세요");
+    }
+
+    mutate({
+      postId: postId as string,
+      content: enteredAnswer,
+    });
+  };
+
+  if (isLoading || !data) {
     return <div>Loading...</div>;
   }
 
@@ -27,19 +46,21 @@ const DetailPage = () => {
     return <h3>에러발생</h3>;
   }
 
-  console.log(post);
-
   return (
     <>
       <Styled.Detail>
         <Styled.DetailInfo>
           <div>
-            {/* <span>{post?.author.photoURL}</span> */}
-            <span>{post?.author.nickname}</span>
-            <span>{post?.createdAt}</span>
-            <span>views:{post?.views}</span>
-            <span>votes:1</span>
-            <span>bookmark:0</span>
+            <img
+              src={data.post.author.photoURL}
+              alt={data.post.author.nickname}
+              style={{ width: "20px", height: "20px" }}
+            />
+            <span>{data.post.author.nickname}</span>
+            <span>{data.post.createdAt}</span>
+            <span>views: {data.post.views}</span>
+            <span>votes: {data.post.votes}</span>
+            <span>bookmark: 0</span>
           </div>
           <div>
             <button>수정</button>
@@ -47,32 +68,27 @@ const DetailPage = () => {
           </div>
         </Styled.DetailInfo>
         <Styled.Content>
-          <h1>{post?.title}</h1>
-          <p>{post?.content}</p>
+          <h1>{data.post.title}</h1>
+          <p>{data.post.content}</p>
         </Styled.Content>
         <Styled.TagGroup>
-          {post?.tags.map((tag) => (
+          {data.post.tags.map((tag) => (
             <Tag key={tag} name={tag} />
           ))}
         </Styled.TagGroup>
       </Styled.Detail>
 
       <Styled.AnswerInput>
-        <textarea />
-        <Button variant="contained">댓글 쓰기</Button>
+        {isMuLoading ? <div>Loading...</div> : <textarea ref={answerRef} />}
+        <Button variant="contained" onClick={answerSubmitHandler}>
+          댓글 쓰기
+        </Button>
       </Styled.AnswerInput>
 
       <Styled.AnswerGroup>
-        <li>
-          <div>
-            <span>photo</span>
-            <span>nickname</span>
-            <span>date</span>
-          </div>
-          <p>내용</p>
-        </li>
-        <li>답변2</li>
-        <li>답변3</li>
+        {data.answers.map((answer) => (
+          <Answer key={answer._id} answer={answer} />
+        ))}
       </Styled.AnswerGroup>
     </>
   );
