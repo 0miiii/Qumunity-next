@@ -21,4 +21,12 @@ const answerSchema = new Schema<IAnswer>(
   { collection: "answers", timestamps: true }
 );
 
+answerSchema.pre<IAnswer>(["find", "findOne"], async function (next) {
+  this.populate({
+    path: "author",
+    select: "-password",
+  });
+  next();
+});
+
 export default models.Answer || model<IAnswer>("Answer", answerSchema);
