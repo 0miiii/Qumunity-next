@@ -1,6 +1,12 @@
 interface IAuthInfo {
   token: string | null;
-  user: { _id: string; nickname: string; photo: string } | null;
+  user: {
+    _id: string;
+    nickname: string;
+    photo: string;
+    questions: number;
+    answers: number;
+  } | null;
 }
 
 export const saveAuthInfoInLocalStorage = (authInfo: IAuthInfo) => {
