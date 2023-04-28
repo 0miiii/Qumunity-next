@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAccessTokenFromLocalStorage } from "@/libs/tokenHandler";
+import { getAuthInfoFromLocalStorage } from "@/libs/tokenHandler";
 
 const instance = axios.create({
   baseURL: "http://localhost:3000/api",
@@ -7,7 +7,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    const token = getAccessTokenFromLocalStorage();
+    const { token } = getAuthInfoFromLocalStorage();
     if (token) {
       config.headers.Authorization = token;
     }
