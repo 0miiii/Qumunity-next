@@ -16,16 +16,17 @@ const DetailPage = () => {
   const { postId } = useRouter().query;
   const answerRef = useRef<HTMLTextAreaElement>(null);
 
-  const { mutate, isLoading: isMuLoading } = useMutation(
-    (answer: IAnswerCreateReq) => createAnswer(answer)
-  );
-
-  const { data, isError, isLoading } = useQuery(
+  const { data, isError, isLoading, refetch } = useQuery(
     ["post", postId],
     () => getPost(postId as string),
     {
       enabled: !!postId,
     }
+  );
+
+  const { mutate, isLoading: isMuLoading } = useMutation(
+    (answer: IAnswerCreateReq) => createAnswer(answer),
+    { onSuccess: () => refetch() }
   );
 
   const answerSubmitHandler = () => {
