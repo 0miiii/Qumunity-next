@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { ROUTE } from "@/constants";
 import { verifyTokenRequest } from "@/apis";
-import { deleteAccessTokenFromLocalStorage } from "@/libs/tokenHandler";
+import { deleteAuthInfoFromLocalStorage } from "@/libs/tokenHandler";
 
 interface Iprops {
   children: React.ReactNode;
@@ -18,7 +18,7 @@ export const AuthGaurdLayout: React.FC<Iprops> = ({ children }) => {
       setIsLoading(false);
     } catch (err) {
       alert("로그인이 필요합니다");
-      deleteAccessTokenFromLocalStorage();
+      deleteAuthInfoFromLocalStorage();
       return route.push(ROUTE.MAIN);
     }
   }, [route]);
