@@ -41,10 +41,11 @@ export default async function handler(
         postId,
         { $inc: { views: 1 } },
         { new: true }
-      );
-      const findedAnswerOnPost = await answerModel
-        .find({ post: postId })
-        .populate("author");
+      ).populate({
+        path: "author",
+        select: "-password",
+      });
+      const findedAnswerOnPost = await answerModel.find({ post: postId });
       return res
         .status(200)
         .json({ post: findedPost, answers: findedAnswerOnPost });
