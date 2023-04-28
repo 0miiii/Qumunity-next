@@ -13,5 +13,5 @@ export const FilterGroup = styled.div`
 export const PostGroup = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
 `;
