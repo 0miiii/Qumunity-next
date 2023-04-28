@@ -41,7 +41,13 @@ export default async function handler(
 
     return res.status(200).json({
       token: createToken({ _id: user._id, nickname: user.nickname }),
-      user: { _id: user._id, nickname: user.nickname, photo: user.photoURL },
+      user: {
+        _id: user._id,
+        nickname: user.nickname,
+        photo: user.photoURL,
+        questions: user.questions,
+        answers: user.answers,
+      },
     });
   } catch (err) {
     console.error(err);
