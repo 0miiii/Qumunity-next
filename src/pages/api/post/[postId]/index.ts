@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import UserModel from "@/models/userModel";
 import PostModel from "@/models/postModel";
-import answerModel from "@/models/answerModel";
+import AnswerModel from "@/models/answerModel";
 import dbConnect from "@/libs/mongoose";
 import { verifyToken } from "@/libs/jsonwebtoken";
 
@@ -45,7 +45,7 @@ export default async function handler(
         path: "author",
         select: "-password",
       });
-      const findedAnswerOnPost = await answerModel.find({ post: postId });
+      const findedAnswerOnPost = await AnswerModel.find({ post: postId });
       return res
         .status(200)
         .json({ post: findedPost, answers: findedAnswerOnPost });
@@ -77,6 +77,7 @@ export default async function handler(
       const { postId } = req.query;
       await UserModel.findByIdAndUpdate(userId, { $inc: { questions: -1 } });
       await PostModel.findByIdAndDelete(postId);
+      await AnswerModel.deleteMany({ post: postId });
       return res.status(200).json("게시물을 삭제했습니다");
     } catch (err) {
       console.error(err);
