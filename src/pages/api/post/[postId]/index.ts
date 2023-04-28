@@ -37,7 +37,11 @@ export default async function handler(
   if (req.method === "GET") {
     try {
       const { postId } = req.query;
-      const findedPost = await PostModel.findById(postId);
+      const findedPost = await PostModel.findByIdAndUpdate(
+        postId,
+        { $inc: { views: 1 } },
+        { new: true }
+      );
       const findedAnswerOnPost = await answerModel
         .find({ post: postId })
         .populate("author");
