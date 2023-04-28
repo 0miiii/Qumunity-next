@@ -11,7 +11,9 @@ import * as Styled from "./Header.style";
 const Header = () => {
   const location = useRouter().pathname;
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+  const { isLoggedIn, nickname, photo } = useSelector(
+    (state: RootState) => state.auth
+  );
   const logoutHandler = () => {
     dispatch(logout());
   };
@@ -34,6 +36,16 @@ const Header = () => {
             </Styled.NavLi>
           </ul>
         </Styled.Nav>
+        {isLoggedIn && (
+          <div>
+            <img
+              src={photo}
+              alt={nickname}
+              style={{ width: "20px", height: "20px" }}
+            />
+            {nickname}님 환영합니다
+          </div>
+        )}
         <Styled.BtnGroup>
           <li>
             <Link href={isLoggedIn ? ROUTE.MYPAGE : ROUTE.SIGN_IN}>
