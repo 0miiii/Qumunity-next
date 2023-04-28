@@ -4,7 +4,7 @@ import { useMutation } from "react-query";
 import { TextField, Button } from "@mui/material";
 import { signInRequest, type ISignInUserInfo } from "@/apis";
 import { ROUTE } from "@/constants";
-import { saveAccessTokenInLocalStorage } from "@/libs/tokenHandler";
+import { saveAuthInfoInLocalStorage } from "@/libs/tokenHandler";
 import * as Styled from "./SignInForm.style";
 
 const SignInForm = () => {
@@ -31,7 +31,7 @@ const SignInForm = () => {
   };
 
   if (isSuccess) {
-    saveAccessTokenInLocalStorage(response.token);
+    saveAuthInfoInLocalStorage(response);
     route.push(ROUTE.MAIN);
   }
 

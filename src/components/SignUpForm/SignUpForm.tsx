@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextField, Button } from "@mui/material";
 import { SignUpSchema } from "../../libs/authValidationYup";
-import { saveAccessTokenInLocalStorage } from "@/libs/tokenHandler";
+import { saveAuthInfoInLocalStorage } from "@/libs/tokenHandler";
 import { ROUTE } from "@/constants";
 import { signUpRequest, type ISignUpUserInfo } from "@/apis";
 import * as Styled from "./SignUpForm.style";
@@ -48,7 +48,7 @@ const SignUpForm = () => {
   });
 
   if (isSuccess) {
-    saveAccessTokenInLocalStorage(response.token);
+    saveAuthInfoInLocalStorage(response);
     route.push(ROUTE.MAIN);
   }
 
