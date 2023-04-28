@@ -2,9 +2,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { deleteAuthInfoFromLocalStorage } from "@/libs/tokenHandler";
 
 interface IAuthPayload {
-  _id: null | string;
-  nickname: null | string;
-  photo: null | string;
+  _id: undefined | string;
+  nickname: undefined | string;
+  photo: undefined | string;
 }
 
 interface AuthState extends IAuthPayload {
@@ -13,9 +13,9 @@ interface AuthState extends IAuthPayload {
 
 const initialState: AuthState = {
   isLoggedIn: false,
-  _id: null,
-  nickname: null,
-  photo: null,
+  _id: undefined,
+  nickname: undefined,
+  photo: undefined,
 };
 
 export const authSlice = createSlice({
