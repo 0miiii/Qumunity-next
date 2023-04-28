@@ -1,15 +1,18 @@
 import React, { useRef } from "react";
 import { useRouter } from "next/router";
 import { useQuery, useMutation } from "react-query";
+import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import { useScrollTop } from "@/hooks";
 import { getPost, createAnswer, IAnswerCreateReq } from "@/apis";
+import { RootState } from "@/store/store";
 import Tag from "@/components/Tag/Tag";
 import Answer from "@/components/Answer/Answer";
 import * as Styled from "./index.style";
 
 const DetailPage = () => {
   useScrollTop();
+  const { _id } = useSelector((state: RootState) => state.auth);
   const { postId } = useRouter().query;
   const answerRef = useRef<HTMLTextAreaElement>(null);
 
@@ -62,10 +65,12 @@ const DetailPage = () => {
             <span>votes: {data.post.votes}</span>
             <span>bookmark: 0</span>
           </div>
-          <div>
-            <button>수정</button>
-            <button>삭제</button>
-          </div>
+          {data.post.author._id === _id && (
+            <div>
+              <button>수정</button>
+              <button>삭제</button>
+            </div>
+          )}
         </Styled.DetailInfo>
         <Styled.Content>
           <h1>{data.post.title}</h1>
