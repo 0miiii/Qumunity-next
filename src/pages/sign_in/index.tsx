@@ -1,14 +1,22 @@
 import React from "react";
+import styled from "styled-components";
 import SignInForm from "@/components/SignInForm/SignInForm";
-import * as Styled from "./index.style";
 
-const AuthPage = () => {
+const SignInPage = () => {
   return (
-    <Styled.Container>
+    <Container>
       <div>로고</div>
       <SignInForm />
-    </Styled.Container>
+    </Container>
   );
 };
 
-export default AuthPage;
+const Container = styled.main`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 30px;
+`;
+
+export default SignInPage;

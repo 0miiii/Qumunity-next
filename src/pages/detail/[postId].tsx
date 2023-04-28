@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import styled from "styled-components";
 import { useRouter } from "next/router";
 import { useQuery, useMutation } from "react-query";
 import { useSelector } from "react-redux";
@@ -9,7 +10,6 @@ import { RootState } from "@/store/store";
 import Tag from "@/components/Tag/Tag";
 import Answer from "@/components/Answer/Answer";
 import { ROUTE } from "@/constants";
-import * as Styled from "./index.style";
 
 const DetailPage = () => {
   useScrollTop();
@@ -61,8 +61,8 @@ const DetailPage = () => {
 
   return (
     <>
-      <Styled.Detail>
-        <Styled.DetailInfo>
+      <Detail>
+        <DetailInfo>
           <div>
             <img
               src={data.post.author.photoURL}
@@ -81,19 +81,19 @@ const DetailPage = () => {
               <button onClick={postDeleteHandler}>삭제</button>
             </div>
           )}
-        </Styled.DetailInfo>
-        <Styled.Content>
+        </DetailInfo>
+        <Content>
           <h1>{data.post.title}</h1>
           <p>{data.post.content}</p>
-        </Styled.Content>
-        <Styled.TagGroup>
+        </Content>
+        <TagGroup>
           {data.post.tags.map((tag) => (
             <Tag key={tag} name={tag} />
           ))}
-        </Styled.TagGroup>
-      </Styled.Detail>
+        </TagGroup>
+      </Detail>
 
-      <Styled.AnswerInput>
+      <AnswerInput>
         {isCreateLoading ? <div>Loading...</div> : <textarea ref={answerRef} />}
         <Button
           variant="contained"
@@ -102,15 +102,80 @@ const DetailPage = () => {
         >
           댓글 쓰기
         </Button>
-      </Styled.AnswerInput>
+      </AnswerInput>
 
-      <Styled.AnswerGroup>
+      <AnswerGroup>
         {data.answers.map((answer) => (
           <Answer key={answer._id} answer={answer} />
         ))}
-      </Styled.AnswerGroup>
+      </AnswerGroup>
     </>
   );
 };
+
+export const Detail = styled.div`
+  width: 840px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  border-radius: 5px;
+`;
+
+export const DetailInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 13px;
+
+  > div {
+    display: flex;
+    gap: 10px;
+  }
+`;
+
+export const Content = styled.div`
+  > h1 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+  > p {
+    min-height: 200px;
+  }
+`;
+
+export const TagGroup = styled.ul`
+  display: flex;
+  gap: 10px;
+`;
+
+export const AnswerInput = styled.section`
+  width: 840px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  border-radius: 5px;
+
+  > textarea {
+    padding: 5px;
+    height: 150px;
+    resize: none;
+    border-radius: 5px;
+  }
+`;
+
+export const AnswerGroup = styled.ul`
+  width: 840px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
 
 export default DetailPage;
