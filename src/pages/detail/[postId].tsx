@@ -4,16 +4,18 @@ import { useQuery, useMutation } from "react-query";
 import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import { useScrollTop } from "@/hooks";
-import { getPost, createAnswer, IAnswerCreateReq } from "@/apis";
+import { getPost, createAnswer, deletePost, IAnswerCreateReq } from "@/apis";
 import { RootState } from "@/store/store";
 import Tag from "@/components/Tag/Tag";
 import Answer from "@/components/Answer/Answer";
+import { ROUTE } from "@/constants";
 import * as Styled from "./index.style";
 
 const DetailPage = () => {
   useScrollTop();
   const { _id } = useSelector((state: RootState) => state.auth);
-  const { postId } = useRouter().query;
+  const route = useRouter();
+  const { postId } = route.query;
   const answerRef = useRef<HTMLTextAreaElement>(null);
 
   const { data, isError, isLoading, refetch } = useQuery(
@@ -24,22 +26,29 @@ const DetailPage = () => {
     }
   );
 
-  const { mutate, isLoading: isMuLoading } = useMutation(
+  const { mutate: createMutate, isLoading: isCreateLoading } = useMutation(
     (answer: IAnswerCreateReq) => createAnswer(answer),
     { onSuccess: () => refetch() }
   );
 
+  const { mutate: deleteMutate } = useMutation(
+    (postId: string) => deletePost(postId),
+    { onSuccess: () => route.push(ROUTE.MAIN) }
+  );
+
   const answerSubmitHandler = () => {
     const enteredAnswer = answerRef.current?.value;
-
     if (!enteredAnswer) {
       return alert("내용을 입력해주세요");
     }
-
-    mutate({
+    createMutate({
       postId: postId as string,
       content: enteredAnswer,
     });
+  };
+
+  const postDeleteHandler = () => {
+    deleteMutate(postId as string);
   };
 
   if (isLoading || !data) {
@@ -69,7 +78,7 @@ const DetailPage = () => {
           {data.post.author._id === _id && (
             <div>
               <button>수정</button>
-              <button>삭제</button>
+              <button onClick={postDeleteHandler}>삭제</button>
             </div>
           )}
         </Styled.DetailInfo>
@@ -85,8 +94,12 @@ const DetailPage = () => {
       </Styled.Detail>
 
       <Styled.AnswerInput>
-        {isMuLoading ? <div>Loading...</div> : <textarea ref={answerRef} />}
-        <Button variant="contained" onClick={answerSubmitHandler}>
+        {isCreateLoading ? <div>Loading...</div> : <textarea ref={answerRef} />}
+        <Button
+          variant="contained"
+          onClick={answerSubmitHandler}
+          disabled={isCreateLoading}
+        >
           댓글 쓰기
         </Button>
       </Styled.AnswerInput>
