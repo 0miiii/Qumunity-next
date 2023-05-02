@@ -51,7 +51,7 @@ const DetailPage = () => {
     deleteMutate(postId as string);
   };
 
-  if (isLoading || !data) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
@@ -65,17 +65,17 @@ const DetailPage = () => {
         <DetailInfo>
           <div>
             <img
-              src={data.post.author.photoURL}
-              alt={data.post.author.nickname}
+              src={data?.post.author.photoURL}
+              alt={data?.post.author.nickname}
               style={{ width: "20px", height: "20px" }}
             />
-            <span>{data.post.author.nickname}</span>
-            <span>{data.post.createdAt}</span>
-            <span>views: {data.post.views}</span>
-            <span>votes: {data.post.votes}</span>
+            <span>{data?.post.author.nickname}</span>
+            <span>{data?.post.createdAt}</span>
+            <span>views: {data?.post.views}</span>
+            <span>votes: {data?.post.votes}</span>
             <span>bookmark: 0</span>
           </div>
-          {data.post.author._id === _id && (
+          {data?.post.author._id === _id && (
             <div>
               <button>수정</button>
               <button onClick={postDeleteHandler}>삭제</button>
@@ -83,11 +83,11 @@ const DetailPage = () => {
           )}
         </DetailInfo>
         <Content>
-          <h1>{data.post.title}</h1>
-          <p>{data.post.content}</p>
+          <h1>{data?.post.title}</h1>
+          <p>{data?.post.content}</p>
         </Content>
         <TagGroup>
-          {data.post.tags.map((tag) => (
+          {data?.post.tags.map((tag) => (
             <Tag key={tag} name={tag} />
           ))}
         </TagGroup>
@@ -105,7 +105,7 @@ const DetailPage = () => {
       </AnswerInput>
 
       <AnswerGroup>
-        {data.answers.map((answer) => (
+        {data?.answers.map((answer) => (
           <Answer key={answer._id} answer={answer} />
         ))}
       </AnswerGroup>
