@@ -2,7 +2,7 @@ import axios from "axios";
 import { getAuthInfoFromLocalStorage } from "@/libs/tokenHandler";
 
 const instance = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: "api",
 });
 
 instance.interceptors.request.use(
