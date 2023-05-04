@@ -11,6 +11,10 @@ export const Container = styled.li`
 
   > div {
     display: flex;
+    align-items: center;
     gap: 10px;
+    > img {
+      border-radius: 5px;
+    }
   }
 `;

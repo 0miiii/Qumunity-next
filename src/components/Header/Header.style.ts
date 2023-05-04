@@ -30,6 +30,18 @@ export const Nav = styled.nav`
   }
 `;
 
+export const Welcome = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  > img {
+    border-radius: 5px;
+    width: 20px;
+    height: 20px;
+  }
+`;
+
 export const NavLi = styled.li<INavLi>`
   color: ${(props) => (props.focus ? "#1976d2" : "black")};
 `;

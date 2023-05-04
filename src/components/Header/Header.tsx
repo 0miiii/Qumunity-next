@@ -37,14 +37,10 @@ const Header = () => {
           </ul>
         </Styled.Nav>
         {isLoggedIn && (
-          <div>
-            <img
-              src={photo}
-              alt={nickname}
-              style={{ width: "20px", height: "20px" }}
-            />
-            {nickname}님 환영합니다
-          </div>
+          <Styled.Welcome>
+            <img src={photo as string} alt={nickname as string} />
+            <span>{nickname}님 환영합니다</span>
+          </Styled.Welcome>
         )}
         <Styled.BtnGroup>
           <li>

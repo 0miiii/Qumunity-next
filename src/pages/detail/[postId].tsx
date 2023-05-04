@@ -127,13 +127,19 @@ export const Detail = styled.div`
 export const DetailInfo = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding-bottom: 10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   font-size: 13px;
 
   > div {
     display: flex;
+    align-items: center;
     gap: 10px;
+
+    > img {
+      border-radius: 5px;
+    }
   }
 `;
 
