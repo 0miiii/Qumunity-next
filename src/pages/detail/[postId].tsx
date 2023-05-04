@@ -75,11 +75,13 @@ const DetailPage = () => {
             <span>votes: {data?.post.votes}</span>
             <span>bookmark: 0</span>
           </div>
-          {data?.post.author._id === _id && (
+          {data?.post.author._id === _id ? (
             <div>
               <button>수정</button>
               <button onClick={postDeleteHandler}>삭제</button>
             </div>
+          ) : (
+            <button>추천</button>
           )}
         </DetailInfo>
         <Content>
