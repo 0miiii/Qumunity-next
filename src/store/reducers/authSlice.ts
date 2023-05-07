@@ -5,6 +5,8 @@ interface IAuthPayload {
   _id: undefined | string;
   nickname: undefined | string;
   photo: undefined | string;
+  questions: undefined | number;
+  answers: undefined | number;
 }
 
 interface AuthState extends IAuthPayload {
@@ -16,6 +18,8 @@ const initialState: AuthState = {
   _id: undefined,
   nickname: undefined,
   photo: undefined,
+  questions: undefined,
+  answers: undefined,
 };
 
 export const authSlice = createSlice({
@@ -27,6 +31,8 @@ export const authSlice = createSlice({
       state._id = action.payload._id;
       state.nickname = action.payload.nickname;
       state.photo = action.payload.photo;
+      state.questions = action.payload.questions;
+      state.answers = action.payload.answers;
     },
     logout: (state) => {
       state.isLoggedIn = false;

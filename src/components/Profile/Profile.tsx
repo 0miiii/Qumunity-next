@@ -2,8 +2,16 @@ import React from "react";
 import { IUser } from "../../types/user";
 import * as Styled from "./Profile.style";
 
+interface IUserinfo {
+  _id: string | undefined;
+  nickname: string | undefined;
+  photoURL: string | undefined;
+  questions: number | undefined;
+  answers: number | undefined;
+}
+
 interface IProps {
-  user: IUser;
+  user: IUser | IUserinfo;
 }
 
 const Profile: React.FC<IProps> = ({ user }) => {

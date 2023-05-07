@@ -3,6 +3,7 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { store } from "@/store/store";
 import GlobalStyle from "@/styles/Global.style";
 import { AuthGaurdLayout, GlobalLayout } from "@/components/Layouts";
@@ -38,6 +39,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
             )}
           </GlobalLayout>
         </Provider>
+        <ReactQueryDevtools />
       </QueryClientProvider>
     </>
   );

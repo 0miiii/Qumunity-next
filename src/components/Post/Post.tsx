@@ -15,9 +15,9 @@ const Post: React.FC<Props> = ({ post }) => {
   return (
     <Styled.Container>
       <Styled.State>
-        <li>{post.votes} votes</li>
-        <li>{post.answers} answers</li>
         <li>{post.views} views</li>
+        <li>{post.answers} answers</li>
+        <li>{post.votes} votes</li>
       </Styled.State>
       <Styled.Content>
         <Styled.Top>

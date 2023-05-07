@@ -1,11 +1,11 @@
 import React, { useRef, useState } from "react";
+import styled from "styled-components";
 import { useRouter } from "next/router";
 import { useMutation } from "react-query";
 import { Button } from "@mui/material";
 import { createPost } from "@/apis";
 import TagInput from "@/components/TagInput/TagInput";
 import { ROUTE } from "@/constants";
-import * as Styled from "./index.style";
 
 interface IEnteredPost {
   title: string;
@@ -53,30 +53,57 @@ const QuestionPage = () => {
 
   return (
     <>
-      <Styled.Form>
-        <Styled.InputContainer>
+      <Form>
+        <InputContainer>
           <label>제목을 입력해주세요</label>
           <input type="text" ref={titleInputRef} />
-        </Styled.InputContainer>
+        </InputContainer>
 
-        <Styled.InputContainer>
+        <InputContainer>
           <label>내용을 입력해주세요</label>
           <textarea ref={contentRef} />
-        </Styled.InputContainer>
+        </InputContainer>
 
-        <Styled.InputContainer>
+        <InputContainer>
           <label>태그를 입력해주세요</label>
           <TagInput tags={tags} setTags={setTags} />
-        </Styled.InputContainer>
+        </InputContainer>
 
         <Button variant="contained" onClick={submitHandler}>
           글 작성하기
         </Button>
-      </Styled.Form>
+      </Form>
     </>
   );
 };
 
 QuestionPage.auth = true;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+const InputContainer = styled.div`
+  width: 840px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  border-radius: 5px;
+
+  > Input {
+    padding: 5px;
+  }
+
+  > textarea {
+    padding: 5px;
+    height: 250px;
+    resize: none;
+  }
+`;
 
 export default QuestionPage;

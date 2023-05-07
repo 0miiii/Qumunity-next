@@ -18,8 +18,12 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    /* background-color: rgb(1,4,9); */
-    /* color: #ffffff; */
+    /* background-color: #212121; */
+    /* background-color: #F19E54; */
+    /* background-color: #DEDEDE; */
+
+    /* color: #FFFFFF; */
+    /* color: #DEDEDE; */
     /* color: #E6EDF3; // 제목 */
     /* color: #7D8590 */
   }

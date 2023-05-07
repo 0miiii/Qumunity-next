@@ -41,6 +41,8 @@ export default async function handler(
         _id: newUser._id,
         nickname: newUser.nickname,
         photo: newUser.photoURL,
+        questions: newUser.questions,
+        answers: newUser.answers,
       },
     });
   } catch (err) {

@@ -1,16 +1,14 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import styled from "styled-components";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
 import { useQuery } from "react-query";
-import { verifyTokenRequest, getPosts } from "@/apis";
-import { login, logout } from "@/store/reducers/authSlice";
+import { getPosts } from "@/apis";
 import { ROUTE } from "@/constants";
 import Post from "@/components/Post/Post";
-import * as Styled from "@/pages/index.style";
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState(1);
-  const limit = 5;
+  const limit = 100;
 
   const {
     data: posts,
@@ -28,19 +26,35 @@ export default function Home() {
 
   return (
     <>
-      <Styled.Top>
+      <Top>
         <span>6 질문</span>
         <Link href={ROUTE.QUESTION}>질문페이지로이동</Link>
-      </Styled.Top>
-      <Styled.FilterGroup>
+      </Top>
+      <FilterGroup>
         <input type="text" />
         <div>정렬버튼</div>
-      </Styled.FilterGroup>
-      <Styled.PostGroup>
+      </FilterGroup>
+      <PostGroup>
         {posts?.map((post) => (
           <Post key={post._id} post={post} />
         ))}
-      </Styled.PostGroup>
+      </PostGroup>
     </>
   );
 }
+
+const Top = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const FilterGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const PostGroup = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
