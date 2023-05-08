@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import * as Styled from "./SortButtons.style";
 
 interface IProps {
-  setSort: React.Dispatch<React.SetStateAction<string>>;
+  onSort: (sort: string) => void;
   btnList: string[];
 }
 
@@ -19,12 +19,12 @@ const createButtonObjects = (btnList: string[]): ButtonObject[] => {
   }, []);
 };
 
-const SortButtons: React.FC<IProps> = ({ setSort, btnList }) => {
+const SortButtons: React.FC<IProps> = ({ onSort, btnList }) => {
   const [activity, setActivity] = useState("0");
   const btnObjList = createButtonObjects(btnList);
 
   const btnHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setSort(event.currentTarget.value);
+    onSort(event.currentTarget.value);
     setActivity(event.currentTarget.id);
   };
 
@@ -38,7 +38,6 @@ const SortButtons: React.FC<IProps> = ({ setSort, btnList }) => {
           value={btn.value}
           onClick={btnHandler}
           activity={activity === btn.id}
-          // className={activity === btn.id ? "on" : ""}
         >
           {btn.title}
         </Styled.Button>
