@@ -12,10 +12,19 @@ interface IGetPostRes {
   answers: IAnswer[];
 }
 
-export const getPosts = (page: number, limit: number, sort: string) => {
-  return instance
-    .get<IPost[]>(`/post?page=${page}&limit=${limit}&sort=${sort}`)
-    .then((res) => res.data);
+export const getPosts = (
+  page: number,
+  limit: number,
+  sort: string,
+  search?: string
+) => {
+  const params = {
+    page: page.toString(),
+    limit: limit.toString(),
+    sort,
+    search: search ? search : "",
+  };
+  return instance.get<IPost[]>("/post", { params }).then((res) => res.data);
 };
 
 export const getPost = (postId: string) => {
