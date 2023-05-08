@@ -36,6 +36,7 @@ export default async function handler(
       const page = Number(req.query.page);
       const limit = Number(req.query.limit);
       const sort = (req.query.sort as TSort) || "newest";
+      const search = req.query.search;
 
       if (!page || !limit) {
         return res.status(400).json("적절하지 않은 query 입니다");
@@ -51,7 +52,13 @@ export default async function handler(
 
       const sortBy = sortOptions[sort] as { [key: string]: 1 | -1 };
 
-      const posts = await PostModel.find().sort(sortBy);
+      const posts = await PostModel.find({
+        $or: [
+          { title: { $regex: search, $options: "i" } },
+          { content: { $regex: search, $options: "i" } },
+          { tags: { $regex: search, $options: "i" } },
+        ],
+      }).sort(sortBy);
       const startIndex = (page - 1) * limit;
       const endIndex = page * limit;
       const filteredData = posts.slice(startIndex, endIndex);
