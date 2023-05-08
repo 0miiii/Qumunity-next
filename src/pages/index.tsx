@@ -5,8 +5,12 @@ import { useQuery } from "react-query";
 import { getPosts } from "@/apis";
 import { ROUTE } from "@/constants";
 import Post from "@/components/Post/Post";
+import SortButtons from "@/components/SortButtons/SortButtons";
+
+const btnList = ["newest", "votes", "views", "answered", "unanswered"];
 
 export default function Home() {
+  const [sort, setSort] = useState(btnList[0]);
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 100;
 
@@ -32,7 +36,7 @@ export default function Home() {
       </Top>
       <FilterGroup>
         <input type="text" />
-        <div>정렬버튼</div>
+        <SortButtons btnList={btnList} setSort={setSort} />
       </FilterGroup>
       <PostGroup>
         {posts?.map((post) => (
