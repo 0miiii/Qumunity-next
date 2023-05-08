@@ -4,6 +4,8 @@ import PostModel from "@/models/postModel";
 import dbConnect from "@/libs/mongoose";
 import { verifyToken } from "@/libs/jsonwebtoken";
 
+type TSort = "newest" | "votes" | "views" | "answered" | "unanswered";
+
 interface INextApiRequest extends NextApiRequest {
   body: {
     title: string;
@@ -33,11 +35,23 @@ export default async function handler(
     try {
       const page = Number(req.query.page);
       const limit = Number(req.query.limit);
+      const sort = (req.query.sort as TSort) || "newest";
+
       if (!page || !limit) {
         return res.status(400).json("적절하지 않은 query 입니다");
       }
 
-      const posts = await PostModel.find();
+      const sortOptions = {
+        newest: { createdAt: -1 },
+        votes: { votes: -1 },
+        views: { views: -1 },
+        answered: { answers: -1 },
+        unanswered: { answers: 1 },
+      };
+
+      const sortBy = sortOptions[sort] as { [key: string]: 1 | -1 };
+
+      const posts = await PostModel.find().sort(sortBy);
       const startIndex = (page - 1) * limit;
       const endIndex = page * limit;
       const filteredData = posts.slice(startIndex, endIndex);
