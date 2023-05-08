@@ -56,7 +56,7 @@ const DetailPage = () => {
   }
 
   if (isError) {
-    return <h3>에러발생</h3>;
+    return <h3>게시물을 가져오는 중에 문제가 발생했습니다.</h3>;
   }
 
   return (
