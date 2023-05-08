@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { useQuery } from "react-query";
@@ -11,6 +11,7 @@ import SearchInput from "@/components/SearchInput/SearchInput";
 const btnList = ["newest", "votes", "views", "answered", "unanswered"];
 
 export default function Home() {
+  const [sort, setSort] = useState(btnList[0]);
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 100;
 
@@ -19,21 +20,28 @@ export default function Home() {
   };
 
   const sortHandler = (sort: string) => {
-    console.log("정렬", sort);
+    setSort(sort);
   };
 
   const {
     data: posts,
     isLoading,
     isError,
-  } = useQuery(["getPosts", currentPage], () => getPosts(currentPage, limit));
+    refetch,
+  } = useQuery(["getPosts", currentPage], () =>
+    getPosts(currentPage, limit, sort)
+  );
+
+  useEffect(() => {
+    refetch();
+  }, [refetch, sort]);
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   if (isError) {
-    return <div>Error</div>;
+    return <div>데이터를 가져오는 중에 문제가 발생했습니다.</div>;
   }
 
   return (
