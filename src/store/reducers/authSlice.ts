@@ -36,6 +36,11 @@ export const authSlice = createSlice({
     },
     logout: (state) => {
       state.isLoggedIn = false;
+      state._id = undefined;
+      state.nickname = undefined;
+      state.photo = undefined;
+      state.questions = undefined;
+      state.answers = undefined;
       deleteAuthInfoFromLocalStorage();
     },
   },
