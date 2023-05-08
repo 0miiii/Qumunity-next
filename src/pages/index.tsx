@@ -12,11 +12,12 @@ const btnList = ["newest", "votes", "views", "answered", "unanswered"];
 
 export default function Home() {
   const [sort, setSort] = useState(btnList[0]);
+  const [search, setSearch] = useState<string | undefined>(undefined);
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 100;
 
   const searchHandler = (search: string) => {
-    console.log("검색어:", search);
+    setSearch(search);
   };
 
   const sortHandler = (sort: string) => {
@@ -29,12 +30,12 @@ export default function Home() {
     isError,
     refetch,
   } = useQuery(["getPosts", currentPage], () =>
-    getPosts(currentPage, limit, sort)
+    getPosts(currentPage, limit, sort, search)
   );
 
   useEffect(() => {
     refetch();
-  }, [refetch, sort]);
+  }, [refetch, sort, search]);
 
   if (isLoading) {
     return <div>Loading...</div>;
