@@ -1,11 +1,16 @@
 # Qumunity-next
 
-[기존 Qumunity](https://github.com/0miiii/Qumunity)
-[리팩토링 Qumunity](https://github.com/0miiii/Qumunity-renewal): 개발 도중에 next.js를 적용하기 위해 중단
-
 Qumunity-next는 Next.js 를 적용하여 기존 Qumunity를 리뉴얼했으며 현재 개발중에 있습니다.
 
 [개발 회고록 노션](https://resume-ym.notion.site/Qumunity-Next-version-9f1e92f51c8e40eb9cb5d745042b01d5)
+
+기존 Qumunity: [Github](https://github.com/0miiii/Qumunity)
+
+리팩토링 Qumunity: [Github](https://github.com/0miiii/Qumunity-renewal): 개발 도중에 next.js를 적용하기 위해 중단
+
+## 🎈 Deploy
+
+Qumunity-next: [바로가기](qumunity-next.vercel.app)
 
 ## 🔨 Stack
 
@@ -20,6 +25,5 @@ Qumunity-next는 Next.js 를 적용하여 기존 Qumunity를 리뉴얼했으며 
 <img src="https://img.shields.io/badge/jsonwebtokens-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white">
 <img src="https://img.shields.io/badge/mui-007FFF?style=for-the-badge&logo=mui&logoColor=white">
 <img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white">
-<img src="https://img.shields.io/badge/표시할이름-색상?style=for-the-badge&logo=기술스택아이콘&logoColor=white">
 
 ## 📄 Commit Message Convention
