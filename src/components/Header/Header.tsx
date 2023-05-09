@@ -11,7 +11,7 @@ import * as Styled from "./Header.style";
 const Header = () => {
   const location = useRouter().pathname;
   const dispatch = useDispatch();
-  const { isLoggedIn, nickname, photoURL } = useSelector(
+  const { isLoggedIn, nickname, photoURL, _id } = useSelector(
     (state: RootState) => state.auth
   );
   const logoutHandler = () => {
@@ -44,7 +44,7 @@ const Header = () => {
         )}
         <Styled.BtnGroup>
           <li>
-            <Link href={isLoggedIn ? ROUTE.MYPAGE : ROUTE.SIGN_IN}>
+            <Link href={isLoggedIn ? `${ROUTE.MYPAGE}/${_id}` : ROUTE.SIGN_IN}>
               <Button variant="contained">
                 {isLoggedIn ? "마이페이지" : "로그인"}
               </Button>
