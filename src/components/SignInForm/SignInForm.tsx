@@ -24,13 +24,20 @@ const SignInForm = () => {
     });
   };
 
+  const guestLoginSubmitHandler = async () => {
+    mutate({
+      email: "test@naver.com",
+      password: "aaaaaa1!",
+    });
+  };
+
   if (isSuccess) {
     saveAccessTokenInLocalStorage(data.token);
     route.push(ROUTE.MAIN);
   }
 
   if (isError) {
-    return <div>Error</div>;
+    alert("로그인 실패");
   }
 
   return (
@@ -41,7 +48,6 @@ const SignInForm = () => {
         variant="outlined"
         type="email"
         required
-        defaultValue="test@naver.com"
         disabled={isLoading}
       />
       <TextField
@@ -50,18 +56,25 @@ const SignInForm = () => {
         variant="outlined"
         type="password"
         required
-        defaultValue="aaaaaa1!"
         disabled={isLoading}
       />
       <Button variant="contained" type="submit" disabled={isLoading}>
         로그인
       </Button>
+
       <p>아직 회원이 아니신가요?</p>
       <Button variant="contained" onClick={() => route.push(ROUTE.SIGN_UP)}>
         회원가입
       </Button>
+
       <p>게스트 계정으로 둘러보고 싶어요</p>
-      <Button variant="contained">게스트 계정 로그인</Button>
+      <Button
+        variant="contained"
+        onClick={guestLoginSubmitHandler}
+        disabled={isLoading}
+      >
+        게스트 계정 로그인
+      </Button>
     </Styled.Container>
   );
 };
