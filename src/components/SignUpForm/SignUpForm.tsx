@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextField, Button } from "@mui/material";
 import { SignUpSchema } from "../../libs/authValidationYup";
-import { saveAuthInfoInLocalStorage } from "@/libs/tokenHandler";
+import { saveAccessTokenInLocalStorage } from "@/libs/tokenHandler";
 import { ROUTE } from "@/constants";
 import { signUpRequest, type ISignUpUserInfo } from "@/apis";
 import * as Styled from "./SignUpForm.style";
@@ -14,14 +14,8 @@ import * as Styled from "./SignUpForm.style";
 type FormData = yup.InferType<typeof SignUpSchema>;
 
 const SignUpForm = () => {
-  const {
-    data: response,
-    isError,
-    isLoading,
-    isSuccess,
-    mutate,
-  } = useMutation((enteredInput: ISignUpUserInfo) =>
-    signUpRequest(enteredInput)
+  const { data, isError, isLoading, isSuccess, mutate } = useMutation(
+    (enteredInput: ISignUpUserInfo) => signUpRequest(enteredInput)
   );
   const route = useRouter();
   const {
@@ -29,12 +23,6 @@ const SignUpForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({
-    defaultValues: {
-      nickname: "test",
-      email: "test@naver.com",
-      password: "aaaaaa1@",
-      password_check: "aaaaaa1@",
-    },
     resolver: yupResolver(SignUpSchema),
     mode: "onChange",
   });
@@ -48,7 +36,7 @@ const SignUpForm = () => {
   });
 
   if (isSuccess) {
-    saveAuthInfoInLocalStorage(response);
+    saveAccessTokenInLocalStorage(data.token);
     route.push(ROUTE.MAIN);
   }
 
