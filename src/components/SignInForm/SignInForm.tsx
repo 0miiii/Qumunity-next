@@ -9,8 +9,14 @@ import * as Styled from "./SignInForm.style";
 
 const SignInForm = () => {
   const route = useRouter();
-  const { data, isLoading, isSuccess, mutate, isError } = useMutation(
-    (enteredInput: ISignInUserInfo) => signInRequest(enteredInput)
+  const { data, isLoading, isSuccess, mutate } = useMutation(
+    (enteredInput: ISignInUserInfo) => signInRequest(enteredInput),
+    {
+      onError: (error) => {
+        console.error("로그인 실패:", error);
+        alert("로그인에 실패했습니다.");
+      },
+    }
   );
 
   const loginSubmitHandler = async (
@@ -34,10 +40,6 @@ const SignInForm = () => {
   if (isSuccess) {
     saveAccessTokenInLocalStorage(data.token);
     route.push(ROUTE.MAIN);
-  }
-
-  if (isError) {
-    alert("로그인 실패");
   }
 
   return (
