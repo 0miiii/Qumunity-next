@@ -2,18 +2,12 @@ import instance from "./intance";
 
 interface IAuthResponse {
   token: string;
-  user: {
-    _id: string;
-    nickname: string;
-    photo: string;
-    questions: number;
-    answers: number;
-  };
 }
 
 interface IVerifyResponse {
   _id: string;
   nickname: string;
+  photoURL: string;
   iat: number;
   exp: number;
 }
