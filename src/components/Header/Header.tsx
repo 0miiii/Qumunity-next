@@ -11,7 +11,7 @@ import * as Styled from "./Header.style";
 const Header = () => {
   const location = useRouter().pathname;
   const dispatch = useDispatch();
-  const { isLoggedIn, nickname, photo } = useSelector(
+  const { isLoggedIn, nickname, photoURL } = useSelector(
     (state: RootState) => state.auth
   );
   const logoutHandler = () => {
@@ -38,7 +38,7 @@ const Header = () => {
         </Styled.Nav>
         {isLoggedIn && (
           <Styled.Welcome>
-            <img src={photo as string} alt={nickname as string} />
+            <img src={photoURL as string} alt={nickname as string} />
             <span>{nickname}님 환영합니다</span>
           </Styled.Welcome>
         )}
