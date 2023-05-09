@@ -35,16 +35,13 @@ export default async function handler(
       password,
     }).save();
 
-    return res.status(200).json({
-      token: createToken({ _id: newUser._id, nickname: newUser.nickname }),
-      user: {
-        _id: newUser._id,
-        nickname: newUser.nickname,
-        photo: newUser.photoURL,
-        questions: newUser.questions,
-        answers: newUser.answers,
-      },
+    const token = createToken({
+      _id: newUser._id,
+      nickname: newUser.nickname,
+      photoURL: newUser.phothURL,
     });
+
+    return res.status(200).json({ token });
   } catch (err) {
     console.error(err);
     return res.status(400).json({ error: "회원가입에 실패했습니다" });

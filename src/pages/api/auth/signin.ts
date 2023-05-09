@@ -39,16 +39,13 @@ export default async function handler(
       return res.status(400).json({ error: "비밀번호가 일치하지 않습니다" });
     }
 
-    return res.status(200).json({
-      token: createToken({ _id: user._id, nickname: user.nickname }),
-      user: {
-        _id: user._id,
-        nickname: user.nickname,
-        photo: user.photoURL,
-        questions: user.questions,
-        answers: user.answers,
-      },
+    const token = createToken({
+      _id: user._id,
+      nickname: user.nickname,
+      photoURL: user.photoURL,
     });
+
+    return res.status(200).json({ token });
   } catch (err) {
     console.error(err);
     return res.status(400).json("로그인에 실패했습니다");
