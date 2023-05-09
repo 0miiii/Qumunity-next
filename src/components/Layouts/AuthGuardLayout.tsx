@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { ROUTE } from "@/constants";
@@ -9,12 +9,21 @@ interface Iprops {
 }
 
 export const AuthGaurdLayout: React.FC<Iprops> = ({ children }) => {
-  const route = useRouter();
+  const [loading, setLoading] = useState(true);
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+  const route = useRouter();
 
-  if (!isLoggedIn) {
-    alert("로그인이 필요합니다");
-    route.push(ROUTE.SIGN_IN);
+  useEffect(() => {
+    if (!isLoggedIn) {
+      alert("로그인이 필요합니다");
+      route.push(ROUTE.SIGN_IN);
+    } else {
+      setLoading(false);
+    }
+  }, [isLoggedIn, route]);
+
+  if (loading) {
+    return <div>loading...</div>;
   }
 
   return <>{children}</>;
