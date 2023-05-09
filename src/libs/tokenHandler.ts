@@ -1,32 +1,11 @@
-interface IAuthInfo {
-  token: string | null;
-  user: {
-    _id: string;
-    nickname: string;
-    photo: string;
-    questions: number;
-    answers: number;
-  } | null;
-}
-
-export const saveAuthInfoInLocalStorage = (authInfo: IAuthInfo) => {
-  return localStorage.setItem("QumunityAuthInfo", JSON.stringify(authInfo));
+export const saveAccessTokenInLocalStorage = (token: string) => {
+  return localStorage.setItem("QumunityAccessToken", token);
 };
 
-export const getAuthInfoFromLocalStorage = (): IAuthInfo => {
-  const authInfo = localStorage.getItem("QumunityAuthInfo");
-
-  if (!authInfo || authInfo === "") {
-    return { token: null, user: null };
-  }
-
-  try {
-    return JSON.parse(authInfo);
-  } catch (error) {
-    return { token: null, user: null };
-  }
+export const getAccessTokenFromLocalStorage = () => {
+  return localStorage.getItem("QumunityAccessToken") || "";
 };
 
-export const deleteAuthInfoFromLocalStorage = () => {
-  return localStorage.removeItem("QumunityAuthInfo");
+export const deleteAccessTokenFromLocalStorage = () => {
+  return localStorage.removeItem("QumunityAccessToken");
 };
