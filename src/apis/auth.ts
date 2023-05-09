@@ -23,7 +23,7 @@ export interface ISignUpUserInfo extends ISignInUserInfo {
 
 const API_URL = {
   SIGN_IN: "/auth/signin",
-  SIGN_UP: "/auth/signu",
+  SIGN_UP: "/auth/signup",
   VERIFY_TOKEN: "/auth/verify_token",
 };
 
