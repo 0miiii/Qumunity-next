@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { deleteAuthInfoFromLocalStorage } from "@/libs/tokenHandler";
+import { deleteAccessTokenFromLocalStorage } from "@/libs/tokenHandler";
 
 interface IAuthPayload {
   _id: undefined | string;
   nickname: undefined | string;
-  photo: undefined | string;
-  questions: undefined | number;
-  answers: undefined | number;
+  photoURL: undefined | string;
+  iat: undefined | number;
+  exp: undefined | number;
 }
 
 interface AuthState extends IAuthPayload {
@@ -17,9 +17,9 @@ const initialState: AuthState = {
   isLoggedIn: false,
   _id: undefined,
   nickname: undefined,
-  photo: undefined,
-  questions: undefined,
-  answers: undefined,
+  photoURL: undefined,
+  iat: undefined,
+  exp: undefined,
 };
 
 export const authSlice = createSlice({
@@ -30,18 +30,18 @@ export const authSlice = createSlice({
       state.isLoggedIn = true;
       state._id = action.payload._id;
       state.nickname = action.payload.nickname;
-      state.photo = action.payload.photo;
-      state.questions = action.payload.questions;
-      state.answers = action.payload.answers;
+      state.photoURL = action.payload.photoURL;
+      state.iat = action.payload.iat;
+      state.exp = action.payload.exp;
     },
     logout: (state) => {
       state.isLoggedIn = false;
       state._id = undefined;
       state.nickname = undefined;
-      state.photo = undefined;
-      state.questions = undefined;
-      state.answers = undefined;
-      deleteAuthInfoFromLocalStorage();
+      state.photoURL = undefined;
+      state.iat = undefined;
+      state.exp = undefined;
+      deleteAccessTokenFromLocalStorage();
     },
   },
 });
