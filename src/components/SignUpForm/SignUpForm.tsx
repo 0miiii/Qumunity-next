@@ -14,8 +14,14 @@ import * as Styled from "./SignUpForm.style";
 type FormData = yup.InferType<typeof SignUpSchema>;
 
 const SignUpForm = () => {
-  const { data, isError, isLoading, isSuccess, mutate } = useMutation(
-    (enteredInput: ISignUpUserInfo) => signUpRequest(enteredInput)
+  const { data, isLoading, isSuccess, mutate } = useMutation(
+    (enteredInput: ISignUpUserInfo) => signUpRequest(enteredInput),
+    {
+      onError: (error) => {
+        console.error("회원가입실패:", error);
+        alert("회원가입에 실패했습니다.");
+      },
+    }
   );
   const route = useRouter();
   const {
@@ -38,10 +44,6 @@ const SignUpForm = () => {
   if (isSuccess) {
     saveAccessTokenInLocalStorage(data.token);
     route.push(ROUTE.MAIN);
-  }
-
-  if (isError) {
-    return <div>Error</div>;
   }
 
   return (
